@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amendola Plumbing</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+body {
+  margin:0;
+  font-family:system-ui;
+  background:#111;
+  color:#fff;
+  text-align:center;
+}
+button {
+  margin-top:20px;
+  padding:15px;
+  width:90%;
+  font-size:18px;
+}
+.hidden {display:none;}
+</style>
+</head>
+
+<body>
+
+<div id="home">
+  <h1>AMENDOLA PLUMBING</h1>
+  <p>Step-By-Step • Do It Right Guide</p>
+  <button onclick="showServices()">ENTER GUIDE</button>
+</div>
+
+<div id="services" class="hidden">
+  <h2>Plumbing Jobs</h2>
+  <div id="jobList"></div>
+  <button onclick="goHome()">HOME</button>
+</div>
+
+<script>
+const jobs=["Replace Toilet","Change Water Heater Element"];
+
+function showServices(){
+  document.getElementById("home").classList.add("hidden");
+  document.getElementById("services").classList.remove("hidden");
+  const list=document.getElementById("jobList");
+  list.innerHTML="";
+  jobs.forEach(j=>{
+    const d=document.createElement("div");
+    d.innerText=j;
+    list.appendChild(d);
+  });
+}
+
+function goHome(){
+  document.getElementById("services").classList.add("hidden");
+  document.getElementById("home").classList.remove("hidden");
+}
+</script>
+
+</body>
+</html>

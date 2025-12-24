@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amendola Plumbing</title>
+
+<style>
+body {
+  margin:0;
+  font-family:system-ui;
+  background:#0f1412;
+  color:#fff;
+}
+header {
+  text-align:center;
+  padding:20px;
+}
+img {
+  width:120px;
+  margin-bottom:10px;
+}
+button {
+  width:90%;
+  padding:16px;
+  font-size:18px;
+  margin:10px auto;
+  display:block;
+}
+.hidden {display:none;}
+.job, .step {
+  background:#1c2220;
+  margin:8px;
+  padding:14px;
+  border-radius:8px;
+}
+input {
+  width:90%;
+  padding:14px;
+  margin:10px auto;
+  display:block;
+  font-size:16px;
+}
+h2 {
+  margin-top:0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HOME -->
+<div id="home">
+  <header>
+    <img src="logo.png">
+    <h1>AMENDOLA PLUMBING</h1>
+    <p>Step-By-Step • Do It Right Guide</p>
+    <button onclick="showJobs()">ENTER GUIDE</button>
+  </header>
+</div>
+
+<!-- JOB LIST -->
+<div id="jobs" class="hidden">
+  <header><h2>Service Jobs (A–Z)</h2></header>
+  <input placeholder="Search job or symptom…" onkeyup="search(this.value)">
+  <div id="jobList"></div>
+  <button onclick="goHome()">HOME</button>
+</div>
+
+<!-- JOB DETAIL -->
+<div id="jobDetail" class="hidden">
+  <header><h2 id="jobTitle"></h2></header>
+  <div id="steps"></div>
+  <button onclick="backToJobs()">BACK</button>
+</div>
+
+<script>
+const jobData = {
+
+  /* TOILETS */
+  "Adjust Toilet Fill Valve": [
+    "Shut off water supply.",
+    "Remove tank lid.",
+    "Adjust float or fill valve height.",
+    "Restore water and verify proper shutoff."
+  ],
+
+  "Replace Toilet": [
+    "Shut off water supply.",
+    "Drain tank and bowl completely.",
+    "Disconnect supply line.",
+    "Remove mounting bolts.",
+    "Lift toilet and inspect flange.",
+    "Install new wax ring or seal.",
+    "Set toilet level and secure.",
+    "Reconnect supply and test."
+  ],
+
+  "Replace Wax Ring": [
+    "Remove toilet.",
+    "Clean flange and inspect condition.",
+    "Install new wax ring or rubber seal.",
+    "Reset toilet and test."
+  ],
+
+  "Unclog Toilet": [
+    "Assess blockage severity.",
+    "Use closet auger.",
+    "Flush and verify flow.",
+    "Inspect for recurring blockage."
+  ],
+
+  /* FAUCETS & FIXTURES */
+  "Replace Faucet Cartridge": [
+    "Shut off water supplies.",
+    "Remove handle and trim.",
+    "Extract old cartridge.",
+    "Install new cartridge.",
+    "Reassemble and test."
+  ],
+
+  "Install Kitchen Faucet": [
+    "Shut off water supplies.",
+    "Remove existing faucet.",
+    "Clean mounting surface.",
+    "Install new faucet and secure.",
+    "Connect supplies and test."
+  ],
+
+  "Install Bathroom Faucet": [
+    "Remove existing faucet.",
+    "Install new faucet.",
+    "Reconnect supplies.",
+    "Test for leaks."
+  ],
+
+  /* DRAINS */
+  "Clear Bathroom Drain": [
+    "Remove stopper.",
+    "Snake drain.",
+    "Flush with water.",
+    "Reinstall stopper."
+  ],
+
+  "Clear Kitchen Drain": [
+    "Inspect trap.",
+    "Remove blockage.",
+    "Snake branch line.",
+    "Flush and test."
+  ],
+
+  "Snake Floor Drain": [
+    "Remove drain cover.",
+    "Snake line.",
+    "Flush and verify drainage."
+  ],
+
+  "Clear Main Sewer Line": [
+    "Locate cleanout.",
+    "Run mainline cable.",
+    "Verify flow at fixtures.",
+    "Recommend camera if recurring."
+  ],
+
+  /* WATER HEATERS */
+  "Electric Water Heater Element Replacement": [
+    "Shut off breaker.",
+    "Drain below element.",
+    "Remove element.",
+    "Install new element.",
+    "Refill tank before powering on."
+  ],
+
+  "Water Heater Flush": [
+    "Shut off power or gas.",
+    "Connect hose to drain.",
+    "Flush until clear.",
+    "Restore operation."
+  ],
+
+  /* GAS */
+  "Gas Pressure Test": [
+    "Isolate gas system.",
+    "Install test gauge.",
+    "Pressurize with air.",
+    "Monitor for pressure drop."
+  ]
+};
+
+const jobNames = Object.keys(jobData).sort();
+
+function showJobs(){
+  home.classList.add("hidden");
+  jobsDiv.classList.remove("hidden");
+  render(jobNames);
+}
+
+function goHome(){
+  jobsDiv.classList.add("hidden");
+  home.classList.remove("hidden");
+}
+
+function render(list){
+  jobList.innerHTML="";
+  list.forEach(name=>{
+    const d=document.createElement("div");
+    d.className="job";
+    d.innerText=name;
+    d.onclick=()=>openJob(name);
+    jobList.appendChild(d);
+  });
+}
+
+function search(text){
+  text=text.toLowerCase();
+  render(jobNames.filter(j=>j.toLowerCase().includes(text)));
+}
+
+function openJob(name){
+  jobsDiv.classList.add("hidden");
+  jobDetail.classList.remove("hidden");
+  jobTitle.innerText=name;
+  steps.innerHTML="";
+  jobData[name].forEach((s,i)=>{
+    const d=document.createElement("div");
+    d.className="step";
+    d.innerText=(i+1)+". "+s;
+    steps.appendChild(d);
+  });
+}
+
+function backToJobs(){
+  jobDetail.classList.add("hidden");
+  jobsDiv.classList.remove("hidden");
+}
+
+const home=document.getElementById("home");
+const jobsDiv=document.getElementById("jobs");
+const jobList=document.getElementById("jobList");
+const jobDetail=document.getElementById("jobDetail");
+const jobTitle=document.getElementById("jobTitle");
+const steps=document.getElementById("steps");
+</script>
+
+</body>
+</html>
